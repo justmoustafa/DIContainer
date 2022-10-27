@@ -2,8 +2,6 @@
 
 namespace App\Libraries;
 
-use App\Libraries\NotFoundException;
-
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
@@ -20,6 +18,7 @@ class Container implements ContainerInterface
         
         return $this->resolve($id);
     }
+
     public function has(string $id):bool
     {
         return isset($this->entries[$id]);
@@ -35,8 +34,7 @@ class Container implements ContainerInterface
 	      $reflectionClass = new \ReflectionClass($id);
 
         if(! $reflectionClass->isInstantiable())        
-        {
-                      
+        {                  
             throw new \Exception('class named '.$id. ' is not instantiable');
         }
 
@@ -61,7 +59,7 @@ class Container implements ContainerInterface
 
             if($paramType instanceOf \ReflectionUnionType)
             {
-                throw new \Exception();
+                throw new \Exception('parameter of type '.$id.' can not allowed');
             }
 
             if($paramType instanceOf \ReflectionNamedType && ! $paramType->isBuiltin() )
